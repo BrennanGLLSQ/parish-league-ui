@@ -13,6 +13,7 @@ export const SidebarContainer = styled.div`
     background-color: #d2d2d2;
     z-index: 95;
     border-radius: 0 5px 5px 0;
+    overflow: scroll;
 `
 
 export const Body=styled.div`
