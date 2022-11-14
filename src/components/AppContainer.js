@@ -8,6 +8,8 @@ import { getUser, createUser } from "../services/parishLeagueApiServices"
 import { PinterestShareButton } from "react-share"
 import SidebarSlidingLevel from "./sidebar/sidebarSlidingLevel/SidebarSlidingLevel"
 import ParishSelect from "./ParishSelect"
+import Tray from "./tray/Tray"
+
 
 const parishBoundariesCollection = require('../ParishBoundaries.json')
 const parishBoundaries = parishBoundariesCollection.features.map(feature => toOlFeature(feature))
@@ -17,7 +19,6 @@ const AppContainer = () => {
     const [selected, setSelected] = useState([])
     const [dialogOpen, setDialogOpen] = useState(false)
     const [email, setEmail] = useState('')
-
     const [levelOpen, setLevelOpen] = useState(true)
 
     selectedRef.current = selected
@@ -56,14 +57,16 @@ const AppContainer = () => {
         <div>
             <ParishMap features={parishBoundaries} onSelect={handleSelect}/>
 
-            <Sidebar width={'300px'}>
+            {/* <Sidebar width={'300px'}>
                 <SidebarSlidingLevel open={levelOpen} onToggle={handleToggle} title={'Pick My Survivors'} style={{}}>
                     <ParishSelect selectedParishes={selected} onRemove={handleRemove} />
                 </SidebarSlidingLevel>
+                
+            </Sidebar> */}
+            <Tray />
 
-                
-                
-            </Sidebar>
+
+
             <Dialog open={dialogOpen}>
                 <DialogTitle>
                     <Typography variant="h6" color="textPrimary">Save Your Picks!</Typography>

@@ -6,9 +6,24 @@ import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import Select from 'ol/interaction/Select'
 import XYZ from 'ol/source/XYZ'
-
+import { makeStyles } from "@material-ui/core/styles"
 import {pointerMove} from 'ol/events/condition'
 import { makeColors, makeParishStyles } from './olHelpers'
+
+
+const useStyles = makeStyles({
+  map: {
+      height: '100vh',
+      width: '100%',
+      position: 'fixed',
+      top: 0,
+      bottom: 0,
+      left: 0, 
+      right: 0
+  }
+})
+
+
 
 
 const ParishMap = ({features, onSelect}) => {
@@ -19,6 +34,8 @@ const ParishMap = ({features, onSelect}) => {
     const mapElement = useRef()
     const mapRef = useRef()
     mapRef.current = map
+    const classes = useStyles()
+
 
   
     useEffect( () => {
@@ -92,7 +109,7 @@ const ParishMap = ({features, onSelect}) => {
     
 
     return (      
-        <div ref={mapElement} className="map-container"></div>
+        <div ref={mapElement} className={classes.map}></div>
     )
 }
 
