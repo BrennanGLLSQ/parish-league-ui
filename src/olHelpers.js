@@ -5,6 +5,7 @@ import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import Text from 'ol/style/Text'
 import { toOlFeature } from './geoconverters'
+import { parishVectorSource } from './parishVectorSource'
 
 const parishColors = {}
 
@@ -37,8 +38,8 @@ export const makeParishStyles = (layer, features=[], map) =>{
 }
 
 
-export const makeColors = (features) =>{
-    features?.forEach(feature =>{
+export const makeColors = () =>{
+    parishVectorSource.getFeatures().forEach(feature =>{
         parishColors[feature.get('OID')] =  `rgba(${getRandomInt(255)}, ${getRandomInt(255)}, ${getRandomInt(255)}, 0.5)`
     })
 }

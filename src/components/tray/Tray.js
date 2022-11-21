@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton'
 import CloseFullscreenRounded from '@mui/icons-material/CloseFullscreenRounded'
 import ChipsDisplay from './ChipsDisplay'
 import LongSwitch from './LongSwitch'
+import { parishVectorSource } from '../../parishVectorSource'
 
 
 
@@ -60,12 +61,19 @@ const useStyles = makeStyles({
     }
 })
 
-const Tray = () => {
+const Tray = ({selectingClosings, setSelectingClosings, selectedClosings, selectedStayOpens, onRemove }) => {
     const [open, setOpen] = useState()
-    const [selectingClosings, setSelectingClosings] = useState(false) //could be in store, will need it for select interaction
 
     const classes = useStyles({show: open})
 
+    const handleSwitch = (e) => {
+        setSelectingClosings(e.target.checked)
+    }
+
+    const chipValues = (ids) => {
+        const olFeatures = ids.map(id => parishVectorSource.getFeatures().find(f => f.get('OID') === id))
+        return olFeatures.map(f => ({value: f.get('OID'), label: f.get('Name')}))
+    }
 
     return (
         <>
@@ -81,14 +89,14 @@ const Tray = () => {
                     </div>
                     <div className={classes.switch}>
                         <Typography variant="body1" >Staying Open</Typography>
-                        <LongSwitch />
+                        <LongSwitch checked={selectingClosings} onChange={handleSwitch} />
                         <Typography variant="body1">Closing</Typography>
 
                     </div>
                 </div>
                 <div className={classes.chipsDisplay}>
-                    <ChipsDisplay values={[]} onDelete={()=>{}} />
-                    <ChipsDisplay values={[]} onDelete={()=>{}} />
+                    <ChipsDisplay values={chipValues(selectedStayOpens)} onDelete={onRemove('open')} />
+                    <ChipsDisplay values={chipValues(selectedClosings)} onDelete={onRemove('closing')} />
                 </div>
             </Paper>
         </div> :

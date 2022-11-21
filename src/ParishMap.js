@@ -9,6 +9,8 @@ import XYZ from 'ol/source/XYZ'
 import { makeStyles } from "@material-ui/core/styles"
 import {pointerMove} from 'ol/events/condition'
 import { makeColors, makeParishStyles } from './olHelpers'
+import MapSelectInteraction from './components/MapSelectInteraction'
+import { parishVectorSource } from './parishVectorSource'
 
 
 const useStyles = makeStyles({
@@ -26,14 +28,11 @@ const useStyles = makeStyles({
 
 
 
-const ParishMap = ({features, onSelect}) => {
-
+const ParishMap = ({features, onFeatureSelect}) => {
     const [ map, setMap ] = useState()
     const [ featuresLayer, setFeaturesLayer ] = useState()
 
     const mapElement = useRef()
-    const mapRef = useRef()
-    mapRef.current = map
     const classes = useStyles()
 
 
@@ -41,7 +40,7 @@ const ParishMap = ({features, onSelect}) => {
     useEffect( () => {
       
       const initialFeaturesLayer = new VectorLayer()
-      initialFeaturesLayer.setSource(new VectorSource({features}))
+      initialFeaturesLayer.setSource(parishVectorSource)
       
       const initialMap = new Map({
         target: mapElement.current,
@@ -62,12 +61,8 @@ const ParishMap = ({features, onSelect}) => {
         controls: []
       })
 
-
       setMap(initialMap)
       setFeaturesLayer(initialFeaturesLayer)
-      return () => {
-        map.un('singleclick')
-      }
     },[])
 
     useEffect(()=>{
@@ -76,40 +71,27 @@ const ParishMap = ({features, onSelect}) => {
           padding: [100,100,100,100]
         })
     
-  
         const hoverInteraction = new Select({
           condition: pointerMove,
-          layers:[featuresLayer] 
+          layers:[featuresLayer]
         })
         map.addInteraction(hoverInteraction)
-  
-        map.on('singleclick', (e) =>{
-          const clickedFeatures = map.getFeaturesAtPixel(e.pixel)
-          onSelect(clickedFeatures[0])
-        })
 
-        
-  
-        makeColors(features)
+        makeColors()
         makeParishStyles(featuresLayer, [], map)
         
       }
     }, [map])
 
-
-     
-
-
-    const handleMapClick = (feature, layer) => {
-      console.log('layer',layer)
-      //you can add a condition on layer to restrict the listener
-      return feature;
+    const handleFeatureSelect = (event) => {
+      const clickedFeatures = map.getFeaturesAtPixel(event.pixel)
+      onFeatureSelect(clickedFeatures[0])
     }
 
-    
-
     return (      
-        <div ref={mapElement} className={classes.map}></div>
+        <div ref={mapElement} className={classes.map}>
+          <MapSelectInteraction onFeatureSelect={handleFeatureSelect} map={map} />
+        </div>
     )
 }
 

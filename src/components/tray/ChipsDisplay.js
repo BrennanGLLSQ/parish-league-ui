@@ -1,5 +1,5 @@
 import React from 'react'
-import {Paper, Chip, ListItem} from '@material-ui/core'
+import {Paper, Chip} from '@material-ui/core'
 import {makeStyles} from "@material-ui/core/styles"
 
 
@@ -25,7 +25,6 @@ const ChipsDisplay = ({values, onDelete}) => {
             <div className={classes.chipContainer}> 
                 {
                     values.map(entry => {
-                        console.log("Value: ", entry)
                         return (
                             <Chip 
                                 key={entry.value}
