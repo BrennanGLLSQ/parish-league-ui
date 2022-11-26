@@ -9,6 +9,7 @@ const parishBoundaries = parishBoundariesCollection.features.map(feature => toOl
 
 const AppContainer = () => {
     const [selectingClosings, setSelectingClosings] = useState(true)
+    const [trayOpen, setTrayOpen] = useState(true)
 
     //this state is too high, should be down on chip display
     //might be a good time to bring in store
@@ -16,11 +17,18 @@ const AppContainer = () => {
     const [selectedStayOpens, setSelectedStayOpens] = useState([])
 
     const handleSelect = (feature) => {
-        const featureId = feature.get('OID')
-        if(selectingClosings && !selectedClosings.includes(featureId)){
-            setSelectedClosings([...selectedClosings, featureId])
-        } else if(!selectedStayOpens.includes(featureId)){
-            setSelectedStayOpens([...selectedStayOpens, featureId])
+        if(trayOpen && feature){
+            const featureId = feature.get('OID')
+            const alreadyClosing = selectedClosings.includes(featureId)
+            const alreadyOpen = selectedStayOpens.includes(featureId)
+            if(alreadyClosing || alreadyOpen){
+                return
+            }
+            if(selectingClosings){
+                setSelectedClosings([...selectedClosings, featureId])
+            } else {
+                setSelectedStayOpens([...selectedStayOpens, featureId])
+            }
         }
     }
 
@@ -41,7 +49,10 @@ const AppContainer = () => {
                 setSelectingClosings={setSelectingClosings} 
                 selectedClosings={selectedClosings} 
                 selectedStayOpens={selectedStayOpens} 
-                onRemove={handleRemove} />
+                onRemove={handleRemove} 
+                open={trayOpen}
+                setOpen={setTrayOpen}
+                />
         </div>
     )
 }

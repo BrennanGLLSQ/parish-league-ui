@@ -58,11 +58,14 @@ const useStyles = makeStyles({
     },
     buttonRow: {
         overflow: 'hidden'
+    },
+    switchLabel: {
+        width: '35%'
     }
 })
 
-const Tray = ({selectingClosings, setSelectingClosings, selectedClosings, selectedStayOpens, onRemove }) => {
-    const [open, setOpen] = useState()
+const Tray = ({selectingClosings, setSelectingClosings, selectedClosings, selectedStayOpens, onRemove, open, setOpen }) => {
+
 
     const classes = useStyles({show: open})
 
@@ -88,9 +91,9 @@ const Tray = ({selectingClosings, setSelectingClosings, selectedClosings, select
                         </IconButton>
                     </div>
                     <div className={classes.switch}>
-                        <Typography variant="body1" >Staying Open</Typography>
+                        <Typography variant="body1" className={classes.switchLabel} >Staying Open</Typography>
                         <LongSwitch checked={selectingClosings} onChange={handleSwitch} />
-                        <Typography variant="body1">Closing</Typography>
+                        <Typography variant="body1" className={classes.switchLabel}>Closing</Typography>
 
                     </div>
                 </div>

@@ -3,7 +3,7 @@ import Switch from "@material-ui/core/Switch";
 //ripped entirely from https://v4.mui.com/components/switches/#CustomizedSwitches.js
 const LongSwitch = withStyles((theme) => ({
     root: {
-      width: '50%',
+      width: '30%',
       height: 'auto',
       padding: 0,
       display: "flex"
@@ -14,7 +14,7 @@ const LongSwitch = withStyles((theme) => ({
       backgroundColor: theme.palette.primary.light,
       borderColor: theme.palette.primary.main,
       "&$checked": {
-        transform: "translateX(100%)",
+        transform: "translateX(200%)",
         color: theme.palette.secondary.main,
         "& + $track": {
           opacity: 1,
@@ -24,8 +24,9 @@ const LongSwitch = withStyles((theme) => ({
       }
     },
     thumb: {
-        width: 24,
-        height: 24
+        width: '100%',
+        height: '100%',
+        transform: "translateX(0%)"
     },
     track: {
       border: `1px solid ${theme.palette.primary.main}`,
